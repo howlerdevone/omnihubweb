@@ -1,26 +1,150 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:where(.dark, [data-theme="dark"], .dark *, [data-theme="dark"] *));
 
 @theme inline {
+  /* Shadcn core variables mapped to your design system tokens */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Extended custom tokens from your Technical Core specification */
+  --color-surface-dim: var(--surface-dim);
+  --color-surface-bright: var(--surface-bright);
+  --color-surface-container: var(--surface-container);
+  --color-tertiary: var(--tertiary);
+  --color-tertiary-foreground: var(--on-tertiary);
+
+  /* Typography tokens using Geist font families */
+  --font-sans: "Geist", sans-serif;
+  --font-mono: "Geist Mono", monospace;
+
+  /* Calculated shape radius tokens based on your 8px (0.5rem) default */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;   /* Shadcn default matches your system default */
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  /* Core base foundation colors (Technical Core Light) */
+  --background: #faf8ff;
+  --foreground: #191b23;
+
+  /* Level 1 Tonal Layering: Cards and structural layouts */
+  --card: #f3f3fe;             /* Matches surface-container-low */
+  --card-foreground: #191b23;  /* Matches on-surface */
+  
+  /* Level 2 Tonal Layering: Floating overlays, dialogs, and popovers */
+  --popover: #ededf9;          /* Matches surface-container */
+  --popover-foreground: #191b23;
+
+  /* Active brand actions (Electric Blue) */
+  --primary: #004ac6;          /* High contrast primary light mode */
+  --primary-foreground: #ffffff;
+
+  /* Accent brand features (Royal Purple) */
+  --secondary: #712ae2;
+  --secondary-foreground: #ffffff;
+
+  /* Component structural states and low-contrast elements */
+  --muted: #ededf9;
+  --muted-foreground: #737686; /* Matches outline token */
+
+  /* Component interactive hover and selected background states */
+  --accent: #e7e7f3;           /* Matches surface-container-high */
+  --accent-foreground: #191b23;
+
+  /* Feedback indicators for system errors and critical states */
+  --destructive: #ba1a1a;
+  --destructive-foreground: #ffffff;
+
+  /* Sharp technical lines, control fields, and active focus boundaries */
+  --border: #c3c6d7;          /* Matches outline-variant for sleek edges */
+  --input: #e1e2ed;           /* Matches surface-variant for clean inputs */
+  --ring: #2563eb;            /* Matches primary-container focus glow */
+
+  /* Additional Technical Core tokens for advanced layouts */
+  --surface-dim: #d9d9e5;
+  --surface-bright: #faf8ff;
+  --surface-container: #ededf9;
+  --tertiary: #006242;        /* Clinical Emerald Green for light mode */
+  --on-tertiary: #ffffff;
+}
+
+.dark {
+  /* Core base foundation colors (Technical Core Dark) */
+  --background: #0b1326;
+  --foreground: #dae2fd;
+
+  /* Level 1 Tonal Layering: Cards and structural layouts */
+  --card: #131b2e;             /* Matches surface-container-low */
+  --card-foreground: #dae2fd;  /* Matches on-surface */
+  
+  /* Level 2 Tonal Layering: Floating overlays, dialogs, and popovers */
+  --popover: #171f33;          /* Matches surface-container */
+  --popover-foreground: #dae2fd;
+
+  /* Active brand actions (Electric Blue) */
+  --primary: #b4c5ff;
+  --primary-foreground: #002a78;
+
+  /* Accent brand features (Royal Purple) */
+  --secondary: #d2bbff;
+  --secondary-foreground: #3f008e;
+
+  /* Component structural states and low-contrast elements */
+  --muted: #171f33;
+  --muted-foreground: #8d90a0; /* Matches outline token */
+
+  /* Component interactive hover and selected background states */
+  --accent: #222a3d;           /* Matches surface-container-high */
+  --accent-foreground: #dae2fd;
+
+  /* Feedback indicators for system errors and critical states */
+  --destructive: #ffb4ab;
+  --destructive-foreground: #690005;
+
+  /* Sharp technical lines, control fields, and active focus boundaries */
+  --border: #434655;          /* Matches outline-variant for sleek edges */
+  --input: #2d3449;           /* Matches surface-variant for clean inputs */
+  --ring: #2563eb;            /* Matches primary-container for focused glow */
+
+  /* Additional Technical Core tokens for advanced layouts */
+  --surface-dim: #0b1326;
+  --surface-bright: #31394d;
+  --surface-container: #171f33;
+  --tertiary: #4edea3;        /* Neon Emerald for live signals or success */
+  --on-tertiary: #003824;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
 }
