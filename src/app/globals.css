@@ -80,7 +80,7 @@
 
   /* Sharp technical lines, control fields, and active focus boundaries */
   --border: #c3c6d7;          /* Matches outline-variant for sleek edges */
-  --input: #e1e2ed;           /* Matches surface-variant for clean inputs */
+  --input: #ffffff;           /* White background for input fields */
   --ring: #2563eb;            /* Matches primary-container focus glow */
 
   /* Additional Technical Core tokens for advanced layouts */
