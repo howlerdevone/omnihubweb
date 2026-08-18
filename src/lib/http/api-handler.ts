@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios';
 import { NextResponse } from 'next/server';
+import { HTTP_STATUS } from './http-status';
 import { BaseResponseModel } from '../models/base-response.model';
 
 type RouteHandler = (request: Request, ...args: unknown[]) => Promise<Response>;
@@ -22,7 +23,7 @@ export const handleApiCall = (handler: RouteHandler): RouteHandler => {
     try {
       return await handler(request, ...args);
     } catch (error: unknown) {
-      let statusCode = 500;
+      let statusCode: number = HTTP_STATUS.INTERNAL_ERROR;
       let errorCode = 'INTERNAL_ERROR';
       let message = 'An unexpected error occurred';
 
@@ -34,7 +35,7 @@ export const handleApiCall = (handler: RouteHandler): RouteHandler => {
           status: error.response?.status,
         });
 
-        statusCode = error.response?.status || 502;
+        statusCode = error.response?.status || HTTP_STATUS.BAD_GATEWAY;
         errorCode = error.code || 'AXIOS_ERROR';
         message = error.message || 'An unexpected error occurred';
       } else {

@@ -1,10 +1,11 @@
 'use client';
 import { Banner } from '@/components';
+import { useToast } from '@/components/custom';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useToast } from '@/components/custom';
+import { HTTP_STATUS } from '@/lib/http/http-status';
 import { CustomHttpHeaders } from '@/lib/http/http.config';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowRight, Cpu, EyeOff, KeyRound, Mail, Share2, User, UserLock } from 'lucide-react';
@@ -52,11 +53,13 @@ export default function LoginPage() {
     }
 
     switch (status) {
-      case 401:
+      case HTTP_STATUS.UNAUTHORIZED:
         return 'The provided email or password is incorrect';
-      case 409:
+      case HTTP_STATUS.CONFLICT:
         return 'A user with this email already exists.';
-      case 500:
+      case HTTP_STATUS.FORBIDDEN:
+        return 'User email is not verified. Please check your email for the verification link.';
+      case HTTP_STATUS.INTERNAL_ERROR:
         return 'Login failed. Please try again.';
       default:
         return 'An error occurred. Please try again.';
