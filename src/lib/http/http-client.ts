@@ -1,5 +1,5 @@
-import 'server-only';
 import axios from 'axios';
+import 'server-only';
 import { EnvironmentConfig } from '../config/env.config';
 
 /**
@@ -12,5 +12,5 @@ import { EnvironmentConfig } from '../config/env.config';
  */
 export const SystemApiConnector = axios.create({
   baseURL: EnvironmentConfig.apiUrl,
-  timeout: 10000,
+  timeout: 30000,
 });

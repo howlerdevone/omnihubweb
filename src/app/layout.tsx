@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { ToastDisplay, ToastProvider } from '@/components/custom';
 import './globals.css';
 
 const geistSans = Geist({
@@ -27,7 +28,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link href="https://googleapis.com" rel="stylesheet" precedence="default" />
       </head>
-      <body className="bg-background text-foreground">{children}</body>
+      <body className="bg-background text-foreground">
+        <ToastProvider>
+          {children}
+          <ToastDisplay />
+        </ToastProvider>
+      </body>
     </html>
   );
 }

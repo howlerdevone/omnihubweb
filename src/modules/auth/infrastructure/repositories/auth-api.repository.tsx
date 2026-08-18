@@ -1,5 +1,5 @@
-import 'server-only';
 import { CustomHttpHeaders, SystemApiConnector } from '@/lib';
+import 'server-only';
 import { AuthEntity, AuthLogin, AuthRegister } from '../../domains/auth.entity';
 import { AuthProviderPort } from '../../ports/auth-provider.port';
 
@@ -16,7 +16,7 @@ export const AuthApiRepository: AuthProviderPort = {
    * @throws {AxiosError} If the request fails (handled by centralized error handler)
    */
   login: async function (data: AuthLogin): Promise<AuthEntity> {
-    const response = await SystemApiConnector.post<AuthEntity>('/auth/login', data, {
+    const response = await SystemApiConnector.post<AuthEntity>('v1/auth/login', data, {
       headers: CustomHttpHeaders(),
     });
     return response.data;
@@ -30,7 +30,7 @@ export const AuthApiRepository: AuthProviderPort = {
    * @throws {AxiosError} If the request fails (handled by centralized error handler)
    */
   register: async function (data: AuthRegister): Promise<AuthEntity> {
-    const response = await SystemApiConnector.post<AuthEntity>('/auth/register', data, {
+    const response = await SystemApiConnector.post<AuthEntity>('v1/auth/register', data, {
       headers: CustomHttpHeaders(),
     });
     return response.data;

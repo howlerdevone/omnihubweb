@@ -1,7 +1,6 @@
 'use client';
 import { Banner } from '@/components';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/custom';
@@ -14,22 +13,41 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-const loginSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-  rememberMe: z.boolean().optional().default(false),
-});
+const registerSchema = z
+  .object({
+    email: z.string().email('Invalid email address'),
+    firstname: z
+      .string()
+      .min(2, 'First name must be at least 2 characters')
+      .max(50, 'First name must not exceed 50 characters'),
+    lastname: z
+      .string()
+      .min(2, 'Last name must be at least 2 characters')
+      .max(50, 'Last name must not exceed 50 characters'),
+    password: z
+      .string()
+      .min(8, 'Password must be at least 8 characters')
+      .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+      .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+      .regex(/[0-9]/, 'Password must contain at least one number'),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  });
 
-type LoginFormData = z.infer<typeof loginSchema>;
+type RegisterFormData = z.infer<typeof registerSchema>;
 
 interface ErrorDetail {
   message: string;
   code: string;
 }
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const router = useRouter();
   const { showToast } = useToast();
 
@@ -37,12 +55,15 @@ export default function LoginPage() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       email: '',
+      firstname: '',
+      lastname: '',
       password: '',
-      rememberMe: false,
+      confirmPassword: '',
     },
   });
 
@@ -57,18 +78,23 @@ export default function LoginPage() {
       case 409:
         return 'A user with this email already exists.';
       case 500:
-        return 'Login failed. Please try again.';
+        return 'Registration failed. Please try again.';
       default:
         return 'An error occurred. Please try again.';
     }
   };
 
-  const onSubmit = async (data: LoginFormData) => {
+  const onSubmit = async (data: RegisterFormData) => {
     setIsLoading(true);
-    const response = await fetch('/login/api', {
+    const response = await fetch('/register/api', {
       method: 'POST',
       headers: CustomHttpHeaders(),
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        email: data.email,
+        firstname: data.firstname,
+        lastname: data.lastname,
+        password: data.password,
+      }),
     });
 
     const result = await response.json();
@@ -81,7 +107,12 @@ export default function LoginPage() {
     }
 
     if (result.success) {
-      router.push('/dashboard');
+      showToast('Account created! Check your email for confirmation.', 'success', 4000);
+      reset();
+
+      setTimeout(() => {
+        router.push('/login');
+      }, 2000);
     }
   };
 
@@ -99,9 +130,11 @@ export default function LoginPage() {
 
       {/* Title */}
       <div className="mb-8 flex flex-col gap-2">
-        <h1 className="text-foreground font-sans text-2xl font-semibold tracking-tight">Sign In</h1>
+        <h1 className="text-foreground font-sans text-2xl font-semibold tracking-tight">
+          Create Account
+        </h1>
         <p className="text-muted-foreground font-sans text-sm">
-          Enter your credentials to access your account.
+          Join Omnihub to get started with your secure workspace.
         </p>
       </div>
 
@@ -109,11 +142,12 @@ export default function LoginPage() {
       <Banner
         icon={<UserLock className="text-tertiary h-7 w-7" />}
         title="End-to-End Encrypted"
-        description="Connection secured via quantum key distribution."
+        description="Your data is protected with quantum key distribution."
       />
 
       {/* Form Fields */}
       <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
+        {/* Email */}
         <div className="flex flex-col gap-2">
           <Label
             htmlFor="email"
@@ -122,7 +156,7 @@ export default function LoginPage() {
             Email
           </Label>
           <div className="relative">
-            <User className="text-muted-foreground absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
+            <Mail className="text-muted-foreground absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
             <Input
               id="email"
               type="email"
@@ -134,21 +168,61 @@ export default function LoginPage() {
           {errors.email && <p className="text-destructive text-xs">{errors.email.message}</p>}
         </div>
 
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center justify-between">
+        {/* First & Last Name Row */}
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col gap-2">
             <Label
-              htmlFor="password"
+              htmlFor="firstname"
               className="text-muted-foreground font-mono text-[11px] uppercase tracking-wider"
             >
-              Password
+              First Name
             </Label>
-            <Link
-              href="/forgot-password"
-              className="text-primary font-mono text-[11px] tracking-wide hover:underline"
-            >
-              Forgot Password?
-            </Link>
+            <div className="relative">
+              <User className="text-muted-foreground absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
+              <Input
+                id="firstname"
+                type="text"
+                placeholder="John"
+                className="border-border bg-input focus-visible:ring-ring h-11 pl-10"
+                {...register('firstname')}
+              />
+            </div>
+            {errors.firstname && (
+              <p className="text-destructive text-xs">{errors.firstname.message}</p>
+            )}
           </div>
+
+          <div className="flex flex-col gap-2">
+            <Label
+              htmlFor="lastname"
+              className="text-muted-foreground font-mono text-[11px] uppercase tracking-wider"
+            >
+              Last Name
+            </Label>
+            <div className="relative">
+              <User className="text-muted-foreground absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
+              <Input
+                id="lastname"
+                type="text"
+                placeholder="Doe"
+                className="border-border bg-input focus-visible:ring-ring h-11 pl-10"
+                {...register('lastname')}
+              />
+            </div>
+            {errors.lastname && (
+              <p className="text-destructive text-xs">{errors.lastname.message}</p>
+            )}
+          </div>
+        </div>
+
+        {/* Password */}
+        <div className="flex flex-col gap-2">
+          <Label
+            htmlFor="password"
+            className="text-muted-foreground font-mono text-[11px] uppercase tracking-wider"
+          >
+            Password
+          </Label>
           <div className="relative">
             <KeyRound className="text-muted-foreground absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
             <Input
@@ -167,20 +241,39 @@ export default function LoginPage() {
             </button>
           </div>
           {errors.password && <p className="text-destructive text-xs">{errors.password.message}</p>}
+          <p className="text-muted-foreground font-sans text-xs">
+            At least 8 characters with uppercase, lowercase, and number
+          </p>
         </div>
 
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            id="rememberMe"
-            className="border-border data-[state=checked]:bg-primary"
-            {...register('rememberMe')}
-          />
+        {/* Confirm Password */}
+        <div className="flex flex-col gap-2">
           <Label
-            htmlFor="rememberMe"
-            className="text-muted-foreground cursor-pointer select-none font-sans text-xs"
+            htmlFor="confirmPassword"
+            className="text-muted-foreground font-mono text-[11px] uppercase tracking-wider"
           >
-            Keep me logged in for 30 days (on this device).
+            Confirm Password
           </Label>
+          <div className="relative">
+            <KeyRound className="text-muted-foreground absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
+            <Input
+              id="confirmPassword"
+              type={showConfirmPassword ? 'text' : 'password'}
+              placeholder="••••••••••••"
+              className="border-border bg-input focus-visible:ring-ring h-11 pl-10 pr-10"
+              {...register('confirmPassword')}
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="text-muted-foreground hover:text-foreground absolute right-3 top-1/2 -translate-y-1/2"
+            >
+              {showConfirmPassword ? <User className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+            </button>
+          </div>
+          {errors.confirmPassword && (
+            <p className="text-destructive text-xs">{errors.confirmPassword.message}</p>
+          )}
         </div>
 
         <Button
@@ -188,17 +281,17 @@ export default function LoginPage() {
           disabled={isLoading}
           className="bg-primary text-primary-foreground flex h-11 w-full items-center justify-center gap-2 font-sans text-sm font-medium hover:brightness-110 disabled:opacity-50"
         >
-          {isLoading ? 'Signing In...' : 'Sign In'}
+          {isLoading ? 'Creating Account...' : 'Create Account'}
           <ArrowRight className="h-4 w-4" />
         </Button>
       </form>
 
-      {/* Register Link */}
+      {/* Login Link */}
       <div className="mt-6 text-center">
         <p className="text-muted-foreground font-sans text-sm">
-          Don&apos;t have an account?{' '}
-          <Link href="/register" className="text-primary font-semibold hover:underline">
-            Register here
+          Already have an account?{' '}
+          <Link href="/login" className="text-primary font-semibold hover:underline">
+            Sign in here
           </Link>
         </p>
       </div>
@@ -210,7 +303,7 @@ export default function LoginPage() {
             <div className="border-border/60 w-full border-t" />
           </div>
           <span className="bg-background text-muted-foreground relative px-3 font-mono text-[10px] uppercase tracking-wider">
-            Or Sign In With
+            Or Register With
           </span>
         </div>
 
@@ -234,9 +327,9 @@ export default function LoginPage() {
 
       {/* Security Disclaimer Footer */}
       <p className="text-muted-foreground mt-12 text-center font-sans text-[11px] leading-relaxed">
-        Access is restricted to authorized personnel only.
+        By creating an account, you agree to our terms of service.
         <br />
-        Activity is monitored and logged by Central Command.
+        Your account activity will be monitored and logged.
       </p>
     </>
   );

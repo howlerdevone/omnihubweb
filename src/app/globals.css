@@ -5,7 +5,7 @@
 @custom-variant dark (&:where(.dark, [data-theme="dark"], .dark *, [data-theme="dark"] *));
 
 @theme inline {
-  /* Shadcn core variables mapped to your design system tokens */
+  /* Shadcn core variables mapped to Musepay Indigo tokens */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -26,115 +26,148 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* Extended custom tokens from your Technical Core specification */
+  /* Extended Musepay tonal layers */
   --color-surface-dim: var(--surface-dim);
   --color-surface-bright: var(--surface-bright);
   --color-surface-container: var(--surface-container);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+  --color-primary-container: var(--primary-container);
+  --color-on-primary-container: var(--on-primary-container);
   --color-tertiary: var(--tertiary);
   --color-tertiary-foreground: var(--on-tertiary);
 
-  /* Typography tokens using Geist font families */
-  --font-sans: "Geist", sans-serif;
-  --font-mono: "Geist Mono", monospace;
+  /* Typography — Inter for UI/display, Geist Mono for technical labels */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "JetBrains Mono", "Fira Code", Consolas, monospace;
 
-  /* Calculated shape radius tokens based on your 8px (0.5rem) default */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;   /* Shadcn default matches your system default */
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.5rem;
+  /* Musepay shape scale — 8px buttons, 16px cards, 24px hero */
+  --radius-sm: 0.25rem;   /* 4px  — chips, small inputs */
+  --radius-md: 0.5rem;    /* 8px  — buttons & inputs (Musepay default) */
+  --radius-lg: 0.75rem;   /* 12px — feature list items */
+  --radius-xl: 1rem;      /* 16px — cards & modals */
+  --radius-2xl: 1.5rem;   /* 24px — hero surfaces */
+  --radius-full: 9999px;  /* pills / chips */
 }
 
 :root {
-  /* Core base foundation colors (Technical Core Light) */
-  --background: #faf8ff;
-  --foreground: #191b23;
+  /* Musepay Indigo — Light (derived from the dark-first palette) */
+  --background: #f7f7fc;         /* Near-white with indigo tint */
+  --foreground: #12131f;         /* Midnight indigo text */
 
-  /* Level 1 Tonal Layering: Cards and structural layouts */
-  --card: #f3f3fe;             /* Matches surface-container-low */
-  --card-foreground: #191b23;  /* Matches on-surface */
-  
-  /* Level 2 Tonal Layering: Floating overlays, dialogs, and popovers */
-  --popover: #ededf9;          /* Matches surface-container */
-  --popover-foreground: #191b23;
+  /* Level 1: cards and structural layouts */
+  --card: #ffffff;
+  --card-foreground: #12131f;
 
-  /* Active brand actions (Electric Blue) */
-  --primary: #004ac6;          /* High contrast primary light mode */
+  /* Level 2: floating overlays, dialogs, popovers */
+  --popover: #f3f3fa;
+  --popover-foreground: #12131f;
+
+  /* Vivid Indigo primary — brand CTA */
+  --primary: #4f46e5;            /* Inverse-primary — deeper for light bg contrast */
   --primary-foreground: #ffffff;
 
-  /* Accent brand features (Royal Purple) */
-  --secondary: #712ae2;
-  --secondary-foreground: #ffffff;
+  /* Secondary — soft indigo lift */
+  --secondary: #dee1fb;          /* secondary-fixed */
+  --secondary-foreground: #131a2e;
 
-  /* Component structural states and low-contrast elements */
-  --muted: #ededf9;
-  --muted-foreground: #737686; /* Matches outline token */
+  /* Muted — low-contrast supporting surfaces */
+  --muted: #ededf3;
+  --muted-foreground: #454654;
 
-  /* Component interactive hover and selected background states */
-  --accent: #e7e7f3;           /* Matches surface-container-high */
-  --accent-foreground: #191b23;
+  /* Accent — hover / selected background */
+  --accent: #e7e7f2;
+  --accent-foreground: #12131f;
 
-  /* Feedback indicators for system errors and critical states */
+  /* Destructive — errors and critical states */
   --destructive: #ba1a1a;
   --destructive-foreground: #ffffff;
 
-  /* Sharp technical lines, control fields, and active focus boundaries */
-  --border: #c3c6d7;          /* Matches outline-variant for sleek edges */
-  --input: #ffffff;           /* White background for input fields */
-  --ring: #2563eb;            /* Matches primary-container focus glow */
+  /* Sharp technical lines and focus boundaries */
+  --border: #c3c6d7;
+  --input: #ffffff;
+  --ring: #6366f1;               /* Vivid Indigo focus glow */
 
-  /* Additional Technical Core tokens for advanced layouts */
-  --surface-dim: #d9d9e5;
-  --surface-bright: #faf8ff;
-  --surface-container: #ededf9;
-  --tertiary: #006242;        /* Clinical Emerald Green for light mode */
+  /* Extended Musepay tonal layers */
+  --surface-dim: #ededf3;
+  --surface-bright: #ffffff;
+  --surface-container-low: #f7f7fc;
+  --surface-container: #f3f3fa;
+  --surface-container-high: #e7e7f2;
+  --surface-container-highest: #dcdce8;
+  --on-surface-variant: #454654;
+  --outline: #737686;
+  --outline-variant: #c3c6d7;
+
+  /* Primary container — tonal buttons and prominent tags */
+  --primary-container: #e0e7ff;
+  --on-primary-container: #1e1b4b;
+
+  /* Tertiary — chrome silver metallic accents */
+  --tertiary: #454859;           /* on-tertiary-fixed-variant for light bg */
   --on-tertiary: #ffffff;
 }
 
 .dark {
-  /* Core base foundation colors (Technical Core Dark) */
-  --background: #0b1326;
-  --foreground: #dae2fd;
+  /* Musepay Indigo — Dark (design-system canonical values) */
+  --background: #0a0b1a;         /* Near-black midnight indigo */
+  --foreground: #e4e2ee;         /* Chrome-silver on-surface */
 
-  /* Level 1 Tonal Layering: Cards and structural layouts */
-  --card: #131b2e;             /* Matches surface-container-low */
-  --card-foreground: #dae2fd;  /* Matches on-surface */
-  
-  /* Level 2 Tonal Layering: Floating overlays, dialogs, and popovers */
-  --popover: #171f33;          /* Matches surface-container */
-  --popover-foreground: #dae2fd;
+  /* Level 1: cards and structural layouts */
+  --card: #12131f;               /* surface */
+  --card-foreground: #e4e2ee;
 
-  /* Active brand actions (Electric Blue) */
-  --primary: #b4c5ff;
-  --primary-foreground: #002a78;
+  /* Level 2: floating overlays, dialogs, popovers */
+  --popover: #1e1f2c;            /* surface-container */
+  --popover-foreground: #e4e2ee;
 
-  /* Accent brand features (Royal Purple) */
-  --secondary: #d2bbff;
-  --secondary-foreground: #3f008e;
+  /* Vivid Indigo primary — CTAs and focus states */
+  --primary: #6366f1;
+  --primary-foreground: #ffffff;
 
-  /* Component structural states and low-contrast elements */
-  --muted: #171f33;
-  --muted-foreground: #8d90a0; /* Matches outline token */
+  /* Secondary — soft indigo grey */
+  --secondary: #bec2e0;
+  --secondary-foreground: #282e44;
 
-  /* Component interactive hover and selected background states */
-  --accent: #222a3d;           /* Matches surface-container-high */
-  --accent-foreground: #dae2fd;
+  /* Muted — low-contrast supporting surfaces */
+  --muted: #1e1f2c;              /* surface-container */
+  --muted-foreground: #c6c5d5;   /* on-surface-variant */
 
-  /* Feedback indicators for system errors and critical states */
+  /* Accent — hover / selected background (elevated tonal layer) */
+  --accent: #292a37;             /* surface-container-high */
+  --accent-foreground: #e4e2ee;
+
+  /* Destructive — errors and critical states */
   --destructive: #ffb4ab;
   --destructive-foreground: #690005;
 
-  /* Sharp technical lines, control fields, and active focus boundaries */
-  --border: #434655;          /* Matches outline-variant for sleek edges */
-  --input: #2d3449;           /* Matches surface-variant for clean inputs */
-  --ring: #2563eb;            /* Matches primary-container for focused glow */
+  /* Sharp technical lines — the "cut edge" that defines cards */
+  --border: #454654;             /* outline-variant */
+  --input: #1e1f2c;              /* surface-container fill for inputs */
+  --ring: #6366f1;               /* Vivid Indigo focus glow */
 
-  /* Additional Technical Core tokens for advanced layouts */
-  --surface-dim: #0b1326;
-  --surface-bright: #31394d;
-  --surface-container: #171f33;
-  --tertiary: #4edea3;        /* Neon Emerald for live signals or success */
-  --on-tertiary: #003824;
+  /* Extended Musepay tonal layers */
+  --surface-dim: #12131f;
+  --surface-bright: #383a48;
+  --surface-container-low: #1a1b28;
+  --surface-container: #1e1f2c;
+  --surface-container-high: #292a37;
+  --surface-container-highest: #343542;
+  --on-surface-variant: #c6c5d5;
+  --outline: #90909f;
+  --outline-variant: #454654;
+
+  /* Primary container — deeper indigo for tonal buttons and prominent tags */
+  --primary-container: #4338ca;
+  --on-primary-container: #e0e7ff;
+
+  /* Tertiary — chrome silver metallic highlights */
+  --tertiary: #e0e2ee;
+  --on-tertiary: #2d3040;
 }
 
 @layer base {

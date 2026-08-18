@@ -53,6 +53,7 @@ export const handleApiCall = (handler: RouteHandler): RouteHandler => {
         success: false,
         message,
         error: errorCode,
+        status: statusCode,
       };
 
       return NextResponse.json(baseResponse, { status: statusCode });
