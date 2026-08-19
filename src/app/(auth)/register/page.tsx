@@ -3,7 +3,7 @@ import { Banner } from '@/components';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useToast } from '@/components/custom';
+import { useToast, ButtonWithSpinner } from '@/components/custom';
 import { HTTP_STATUS } from '@/lib/http/http-status';
 import { CustomHttpHeaders } from '@/lib/http/http.config';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -86,6 +86,7 @@ export default function RegisterPage() {
   };
 
   const onSubmit = async (data: RegisterFormData) => {
+    if (isLoading) return;
     setIsLoading(true);
     const response = await fetch('/register/api', {
       method: 'POST',
@@ -141,7 +142,7 @@ export default function RegisterPage() {
 
       {/* Encrypted Notice Banner Component */}
       <Banner
-        icon={<UserLock className="text-tertiary h-7 w-7" />}
+        icon={<UserLock className="h-7 w-7 text-tertiary" />}
         title="End-to-End Encrypted"
         description="Your data is protected with quantum key distribution."
       />
@@ -277,14 +278,14 @@ export default function RegisterPage() {
           )}
         </div>
 
-        <Button
+        <ButtonWithSpinner
           type="submit"
-          disabled={isLoading}
+          isLoading={isLoading}
           className="bg-primary text-primary-foreground flex h-11 w-full items-center justify-center gap-2 font-sans text-sm font-medium hover:brightness-110 disabled:opacity-50"
         >
-          {isLoading ? 'Creating Account...' : 'Create Account'}
+          Create Account
           <ArrowRight className="h-4 w-4" />
-        </Button>
+        </ButtonWithSpinner>
       </form>
 
       {/* Login Link */}

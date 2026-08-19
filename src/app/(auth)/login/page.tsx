@@ -1,6 +1,6 @@
 'use client';
 import { Banner } from '@/components';
-import { useToast } from '@/components/custom';
+import { ButtonWithSpinner, useToast } from '@/components/custom';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -67,6 +67,7 @@ export default function LoginPage() {
   };
 
   const onSubmit = async (data: LoginFormData) => {
+    if (isLoading) return;
     setIsLoading(true);
     const response = await fetch('/login/api', {
       method: 'POST',
@@ -84,7 +85,7 @@ export default function LoginPage() {
     }
 
     if (result.success) {
-      router.push('/dashboard');
+      router.push('/onboarding');
     }
   };
 
@@ -110,7 +111,7 @@ export default function LoginPage() {
 
       {/* Encrypted Notice Banner Component */}
       <Banner
-        icon={<UserLock className="text-tertiary h-7 w-7" />}
+        icon={<UserLock className="h-7 w-7 text-tertiary" />}
         title="End-to-End Encrypted"
         description="Connection secured via quantum key distribution."
       />
@@ -186,14 +187,14 @@ export default function LoginPage() {
           </Label>
         </div>
 
-        <Button
+        <ButtonWithSpinner
           type="submit"
-          disabled={isLoading}
+          isLoading={isLoading}
           className="bg-primary text-primary-foreground flex h-11 w-full items-center justify-center gap-2 font-sans text-sm font-medium hover:brightness-110 disabled:opacity-50"
         >
-          {isLoading ? 'Signing In...' : 'Sign In'}
+          Sign In
           <ArrowRight className="h-4 w-4" />
-        </Button>
+        </ButtonWithSpinner>
       </form>
 
       {/* Register Link */}

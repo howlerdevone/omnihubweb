@@ -11,14 +11,14 @@ export type AuthLogin = {
 };
 
 export type AuthEntity = {
-  access_token: string;
-  refresh_token: string;
-  expires_at: string;
+  accessToken: string;
+  refreshToken: string;
+  expiresAt: string;
   user: {
     id: string;
     email: string;
-    display_name: string;
-    preferred_language: string;
+    displayName: string;
+    preferredLanguage: string;
     timezone: string;
   };
 };

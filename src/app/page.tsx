@@ -36,7 +36,7 @@ export default function HomePage() {
 
           <div className="flex items-center gap-4">
             <a
-              className="text-on-surface hover:bg-surface-bright rounded-lg px-4 py-2 font-mono text-xs transition-all"
+              className="text-on-surface rounded-lg px-4 py-2 font-mono text-xs transition-all hover:bg-surface-bright"
               href="/login"
             >
               Sign In
@@ -74,8 +74,8 @@ export default function HomePage() {
 
             <div className="relative z-10 flex max-w-4xl flex-col items-center text-center">
               <div className="bg-card border-border mb-4 flex items-center gap-2 rounded-full border px-4 py-1">
-                <span className="bg-tertiary h-2 w-2 animate-pulse rounded-full shadow-[0_0_8px_rgba(78,222,163,0.8)]"></span>
-                <span className="text-tertiary font-mono text-xs tracking-widest uppercase">
+                <span className="h-2 w-2 animate-pulse rounded-full bg-tertiary shadow-[0_0_8px_rgba(78,222,163,0.8)]"></span>
+                <span className="font-mono text-xs uppercase tracking-widest text-tertiary">
                   Nebula Engine Core Online
                 </span>
               </div>

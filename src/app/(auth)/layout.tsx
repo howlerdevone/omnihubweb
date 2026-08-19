@@ -4,7 +4,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className="bg-background text-foreground grid min-h-screen w-full grid-cols-1 lg:grid-cols-2">
       {/* Left Decorative/Informational Column */}
-      <div className="bg-surface-dim border-border relative hidden flex-col justify-between overflow-hidden border-r p-12 lg:flex">
+      <div className="border-border relative hidden flex-col justify-between overflow-hidden border-r bg-surface-dim p-12 lg:flex">
         {/* Radial grid subtle pattern for the technical look */}
         <div
           className="pointer-events-none absolute inset-0 opacity-10"
@@ -16,8 +16,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div className="relative z-10">
           {/* Visual placement indicator or placeholder */}
           <div className="bg-card border-border mb-4 flex w-fit items-center gap-2 rounded-full border px-3 py-1">
-            <span className="bg-tertiary h-2 w-2 animate-pulse rounded-full shadow-[0_0_8px_rgba(78,222,163,0.8)]" />
-            <span className="text-tertiary font-mono text-[10px] uppercase tracking-widest">
+            <span className="h-2 w-2 animate-pulse rounded-full bg-tertiary shadow-[0_0_8px_rgba(78,222,163,0.8)]" />
+            <span className="font-mono text-[10px] uppercase tracking-widest text-tertiary">
               System Online
             </span>
           </div>
