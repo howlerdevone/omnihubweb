@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import { Orbit } from 'lucide-react';
 
 export default function HomePage() {
   return (
@@ -6,13 +6,7 @@ export default function HomePage() {
       <header className="bg-surface/40 fixed top-0 z-50 w-full border-b border-white/5 backdrop-blur-xl">
         <div className="flex h-16 w-full items-center justify-between px-8">
           <div className="flex items-center gap-4">
-            <Image
-              alt="Omnihub logo"
-              className="h-8 w-auto object-contain"
-              src="https://lh3.googleusercontent.com/aida/AP1WRLtsgu8sOEaftgrKUuCeFnR_FCxk-xUkhjf9rC9jvGgrP-HX5PkF7gwSBVjddcAhd5WSr7zC_ce9P_rRz4BKH9jsDo2gtnJpL83isL037rFSJ438DT4hOMBX3tc1CtkpQ4PkVPox_usBG88FMLvsYLnLZnW4iTrb2CgQnj7E1ieaCD7LcemEodCCBUndEFTYsj6RTGJ5aG_G-3XCFcPoy9Jqnu2CAYSD5MyIDuL4QNGF7ChozIHpGk0zOWg"
-              width={32}
-              height={32}
-            />
+            <Orbit aria-label="Omnihub logo" className="text-primary h-8 w-8" />
             <span className="text-on-surface font-sans text-2xl font-semibold tracking-tight">
               Omnihub Nebula
             </span>
@@ -73,20 +67,20 @@ export default function HomePage() {
             }}
           ></div>
 
-          <div className="bg-surface relative flex min-h-[80vh] w-full items-center justify-center px-8 pb-16 pt-24">
+          <div className="bg-surface relative flex min-h-[80vh] w-full items-center justify-center px-8 pt-24 pb-16">
             {/* Blurry glow effects */}
-            <div className="bg-primary/10 absolute left-1/4 top-1/4 h-[500px] w-[500px] animate-pulse rounded-full opacity-50 mix-blend-screen blur-[100px] filter"></div>
-            <div className="bg-secondary/10 absolute bottom-1/4 right-1/4 h-[600px] w-[600px] rounded-full opacity-40 mix-blend-screen blur-[120px] filter"></div>
+            <div className="bg-primary/10 absolute top-1/4 left-1/4 h-[500px] w-[500px] animate-pulse rounded-full opacity-50 mix-blend-screen blur-[100px] filter"></div>
+            <div className="bg-secondary/10 absolute right-1/4 bottom-1/4 h-[600px] w-[600px] rounded-full opacity-40 mix-blend-screen blur-[120px] filter"></div>
 
             <div className="relative z-10 flex max-w-4xl flex-col items-center text-center">
               <div className="bg-card border-border mb-4 flex items-center gap-2 rounded-full border px-4 py-1">
                 <span className="bg-tertiary h-2 w-2 animate-pulse rounded-full shadow-[0_0_8px_rgba(78,222,163,0.8)]"></span>
-                <span className="text-tertiary font-mono text-xs uppercase tracking-widest">
+                <span className="text-tertiary font-mono text-xs tracking-widest uppercase">
                   Nebula Engine Core Online
                 </span>
               </div>
 
-              <h1 className="text-on-surface from-foreground via-primary to-secondary mb-6 bg-gradient-to-r bg-clip-text font-sans text-5xl font-bold leading-tight text-transparent md:text-6xl">
+              <h1 className="text-on-surface from-foreground via-primary to-secondary mb-6 bg-gradient-to-r bg-clip-text font-sans text-5xl leading-tight font-bold text-transparent md:text-6xl">
                 Synchronize
                 <br />
                 Your Nexus.
