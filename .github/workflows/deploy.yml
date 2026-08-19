@@ -67,4 +67,5 @@ jobs:
           flags: "--allow-unauthenticated --port=8080"
 
       - name: Show service URL
-        run: echo "Service URL: ${{ steps.deploy.outputs.url }}"
+        run: |
+          echo "Service URL: ${{ steps.deploy.outputs.url }}"
