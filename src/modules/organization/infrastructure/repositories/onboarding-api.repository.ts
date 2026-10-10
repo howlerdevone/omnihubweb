@@ -12,3 +12,25 @@ export const OnboardingApiRepository: OnboardingProvider = {
     return response.data;
   },
 };
+
+/**
+ * Retrieves the current user's workspace (organization).
+ *
+ * @returns {Promise<Organization>} Current workspace data
+ * @throws {AxiosError} If the request fails or workspace is not found
+ */
+export const getCurrentWorkspace = async (): Promise<Organization> => {
+  const response = await SystemApiConnector.get<Organization>('/v1/organizations/me');
+  return response.data;
+};
+
+/**
+ * Retrieves all workspaces accessible by the current user.
+ *
+ * @returns {Promise<Organization[]>} Array of workspace data
+ * @throws {AxiosError} If the request fails
+ */
+export const getAllWorkspaces = async (): Promise<Organization[]> => {
+  const response = await SystemApiConnector.get<Organization[]>('/v1/organizations');
+  return response.data;
+};

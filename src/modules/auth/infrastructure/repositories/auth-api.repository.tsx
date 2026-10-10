@@ -35,4 +35,17 @@ export const AuthApiRepository: AuthProviderPort = {
     });
     return response.data;
   },
+
+  /**
+   * Retrieves the current authenticated user's profile information.
+   *
+   * @returns {Promise<AuthEntity['user']>} Current user data including id, email, displayName
+   * @throws {AxiosError} If the request fails or user is not authenticated
+   */
+  getCurrentUser: async function (): Promise<AuthEntity['user']> {
+    const response = await SystemApiConnector.get<AuthEntity['user']>('/v1/users/me', {
+      headers: CustomHttpHeaders(),
+    });
+    return response.data;
+  },
 };
