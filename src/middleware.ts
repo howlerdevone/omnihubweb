@@ -1,21 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export const middleware = async (request: NextRequest) => {
+/**
+ * Middleware only validates JWT presence.
+ * Business logic (onboarding status) is handled by layouts.
+ */
+export const middleware = (request: NextRequest) => {
   const { pathname } = request.nextUrl;
+  const authCookie = request.cookies.get('auth_token');
 
-  // Protect dashboard routes
-  if (pathname.startsWith('/dashboard')) {
-    const authCookie = request.cookies.get('auth_token');
-
-    if (!authCookie) {
-      return NextResponse.redirect(new URL('/login', request.url));
-    }
-  }
-
-  // Protect onboarding routes
-  if (pathname.startsWith('/onboarding')) {
-    const authCookie = request.cookies.get('auth_token');
-
+  // Require authentication for protected routes
+  if (pathname.startsWith('/dashboard') || pathname.startsWith('/onboarding')) {
     if (!authCookie) {
       return NextResponse.redirect(new URL('/login', request.url));
     }

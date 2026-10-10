@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { redirect } from 'next/navigation';
 import { Sidebar } from '@/components/features/dashboard/sidebar';
 import { Navbar } from '@/components/features/dashboard/navbar';
 import { Workspace } from '@/modules/organization';
@@ -41,6 +42,11 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
         </div>
       </div>
     );
+  }
+
+  // Validate onboarding is completed
+  if (!user.onboardingCompletedAt) {
+    redirect('/onboarding');
   }
 
   const currentWorkspace = workspaces[0];

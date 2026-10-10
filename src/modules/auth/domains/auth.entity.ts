@@ -20,5 +20,6 @@ export type AuthEntity = {
     displayName: string;
     preferredLanguage: string;
     timezone: string;
+    onboardingCompletedAt: string | null;
   };
 };
